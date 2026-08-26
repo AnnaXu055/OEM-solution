@@ -1194,6 +1194,10 @@ h1[tabindex="-1"]:focus {
     border-left: 1px solid var(--line);
   }
 
+  .evidence-strip article:nth-child(odd) {
+    padding-left: 0;
+  }
+
   .evidence-strip article:nth-child(3) {
     border-left: 0;
   }
