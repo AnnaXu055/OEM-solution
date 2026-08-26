@@ -12,16 +12,9 @@
   const viewerStage = viewer?.querySelector(".image-dialog__stage");
   const viewerImage = viewerStage?.appendChild(document.createElement("img")) || null;
   const viewerClose = viewer?.querySelector("[data-viewer-close]");
-  const viewerZoomIn = viewer?.querySelector("[data-viewer-zoom-in]");
-  const viewerZoomOut = viewer?.querySelector("[data-viewer-zoom-out]");
-  const viewerZoomReset = viewer?.querySelector("[data-viewer-zoom-reset]");
-  const viewerZoomStatus = viewer?.querySelector("#viewer-zoom-status");
   let viewerTrigger = null;
-  let viewerZoom = 1;
-  let viewerFit = 1;
   let viewerNaturalWidth = 0;
   let viewerNaturalHeight = 0;
-  let viewerRenderFrame = 0;
 
   if (viewerImage) {
     viewerImage.id = "viewer-image";
@@ -115,16 +108,19 @@
     showView(routeFromHash(), { focusHeading: true });
   });
 
-  const renderViewerZoom = ({ center = true } = {}) => {
+  const sizeViewerImage = () => {
     if (!viewerStage || !viewerImage || !viewerNaturalWidth || !viewerNaturalHeight) return;
 
-    const previousScrollWidth = Math.max(viewerStage.scrollWidth, viewerStage.clientWidth);
-    const previousScrollHeight = Math.max(viewerStage.scrollHeight, viewerStage.clientHeight);
-    const previousCenterX = viewerStage.scrollLeft + viewerStage.clientWidth / 2;
-    const previousCenterY = viewerStage.scrollTop + viewerStage.clientHeight / 2;
-    const scale = viewerFit * viewerZoom;
-    const width = Math.max(1, Math.round(viewerNaturalWidth * scale));
-    const height = Math.max(1, Math.round(viewerNaturalHeight * scale));
+    const availableWidth = Math.max(1, viewerStage.clientWidth - 24);
+    const availableHeight = Math.max(1, viewerStage.clientHeight - 24);
+    const aspect = viewerNaturalWidth / viewerNaturalHeight;
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const heightFitWidth = availableHeight * aspect;
+    const targetWidth = isLandscape
+      ? Math.min(availableWidth, heightFitWidth)
+      : Math.max(availableWidth, heightFitWidth);
+    const width = Math.min(viewerNaturalWidth, Math.max(1, Math.round(targetWidth)));
+    const height = Math.max(1, Math.round(width / aspect));
 
     viewerImage.style.width = `${width}px`;
     viewerImage.style.height = `${height}px`;
@@ -132,49 +128,18 @@
       "is-overflowing",
       width + 24 > viewerStage.clientWidth || height + 24 > viewerStage.clientHeight
     );
-    if (viewerZoomStatus) {
-      viewerZoomStatus.value = viewerZoom === 1 ? "Fit" : `${Math.round(viewerZoom * 100)}%`;
-      viewerZoomStatus.textContent = viewerZoom === 1 ? "Fit" : `${Math.round(viewerZoom * 100)}%`;
-    }
 
-    cancelAnimationFrame(viewerRenderFrame);
-    viewerRenderFrame = requestAnimationFrame(() => {
-      if (!center) {
-        viewerStage.scrollLeft = Math.max(0, (viewerStage.scrollWidth - viewerStage.clientWidth) / 2);
-        viewerStage.scrollTop = Math.max(0, (viewerStage.scrollHeight - viewerStage.clientHeight) / 2);
-        return;
-      }
-
-      const xRatio = previousCenterX / previousScrollWidth;
-      const yRatio = previousCenterY / previousScrollHeight;
-      viewerStage.scrollLeft = Math.max(0, xRatio * viewerStage.scrollWidth - viewerStage.clientWidth / 2);
-      viewerStage.scrollTop = Math.max(0, yRatio * viewerStage.scrollHeight - viewerStage.clientHeight / 2);
+    requestAnimationFrame(() => {
+      viewerStage.scrollLeft = Math.max(0, (viewerStage.scrollWidth - viewerStage.clientWidth) / 2);
+      viewerStage.scrollTop = Math.max(0, (viewerStage.scrollHeight - viewerStage.clientHeight) / 2);
     });
   };
 
-  const fitViewerImage = () => {
+  const prepareViewerImage = () => {
     if (!viewerStage || !viewerImage?.naturalWidth || !viewerImage.naturalHeight) return;
     viewerNaturalWidth = viewerImage.naturalWidth;
     viewerNaturalHeight = viewerImage.naturalHeight;
-    const availableWidth = Math.max(1, viewerStage.clientWidth - 24);
-    const availableHeight = Math.max(1, viewerStage.clientHeight - 24);
-    viewerFit = Math.min(1, availableWidth / viewerNaturalWidth, availableHeight / viewerNaturalHeight);
-    viewerZoom = 1;
-    renderViewerZoom({ center: false });
-  };
-
-  const setViewerZoom = (zoom) => {
-    viewerZoom = Math.min(4, Math.max(1, zoom));
-    renderViewerZoom();
-  };
-
-  const stepViewerZoom = (direction) => {
-    const steps = [1, 1.25, 1.5, 2, 2.5, 3, 4];
-    const currentIndex = steps.reduce((closest, value, index) => {
-      return Math.abs(value - viewerZoom) < Math.abs(steps[closest] - viewerZoom) ? index : closest;
-    }, 0);
-    const nextIndex = Math.min(steps.length - 1, Math.max(0, currentIndex + direction));
-    setViewerZoom(steps[nextIndex]);
+    sizeViewerImage();
   };
 
   document.querySelectorAll("[data-zoom-src]").forEach((button) => {
@@ -190,10 +155,10 @@
     });
   });
 
-  viewerImage?.addEventListener("load", fitViewerImage);
-  viewerZoomIn?.addEventListener("click", () => stepViewerZoom(1));
-  viewerZoomOut?.addEventListener("click", () => stepViewerZoom(-1));
-  viewerZoomReset?.addEventListener("click", () => setViewerZoom(1));
+  viewerImage?.addEventListener("load", prepareViewerImage);
+  window.addEventListener("resize", () => {
+    if (viewer?.open) sizeViewerImage();
+  });
 
   const closeViewer = () => {
     if (viewer?.open) viewer.close();
@@ -201,18 +166,14 @@
 
   viewerClose?.addEventListener("click", closeViewer);
 
-  viewer?.addEventListener("click", (event) => {
-    if (event.target === viewer) closeViewer();
-  });
-
   viewer?.addEventListener("close", () => {
     if (viewerImage) {
       viewerImage.removeAttribute("style");
       viewerImage.removeAttribute("src");
     }
     viewerStage?.classList.remove("is-overflowing");
-    viewerZoom = 1;
-    viewerFit = 1;
+    viewerNaturalWidth = 0;
+    viewerNaturalHeight = 0;
     viewerTrigger?.focus();
     viewerTrigger = null;
   });
