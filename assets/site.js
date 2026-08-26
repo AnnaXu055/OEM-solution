@@ -7,7 +7,10 @@
 
   const views = [...document.querySelectorAll("[data-view]")];
   const tabs = [...document.querySelectorAll("[data-route]")];
-  const select = document.querySelector("#solution-select");
+  const picker = document.querySelector("#solution-picker");
+  const pickerTrigger = picker?.querySelector(".mobile-viewer__trigger");
+  const pickerValue = picker?.querySelector(".mobile-viewer__value");
+  const pickerOptions = [...(picker?.querySelectorAll("[data-picker-route]") || [])];
   const viewer = document.querySelector("#image-viewer");
   const viewerStage = viewer?.querySelector(".image-dialog__stage");
   const viewerImage = viewerStage?.appendChild(document.createElement("img")) || null;
@@ -30,6 +33,29 @@
   const routeFromHash = () => {
     const route = location.hash.slice(1);
     return validRoute(route) ? route : "oem-eu";
+  };
+
+  const routeLabels = {
+    "oem-eu": "OEM-EU",
+    cms31: "CMS31",
+    ess20: "ESS 2.0"
+  };
+
+  const setPickerOpen = (open) => {
+    if (!picker || !pickerTrigger) return;
+    picker.classList.toggle("is-open", open);
+    pickerTrigger.setAttribute("aria-expanded", String(open));
+    if (open) {
+      const selected = pickerOptions.find((option) => option.getAttribute("aria-selected") === "true");
+      (selected || pickerOptions[0])?.focus({ preventScroll: true });
+    }
+  };
+
+  const syncPicker = (route) => {
+    if (pickerValue) pickerValue.textContent = routeLabels[route] || routeLabels["oem-eu"];
+    pickerOptions.forEach((option) => {
+      option.setAttribute("aria-selected", String(option.dataset.pickerRoute === route));
+    });
   };
 
   const hydrateView = (view) => {
@@ -73,7 +99,8 @@
       else tab.removeAttribute("aria-current");
     });
 
-    if (select) select.value = activeRoute;
+    syncPicker(activeRoute);
+    setPickerOpen(false);
     document.title = routeMeta[activeRoute];
     moveToTop();
 
@@ -96,12 +123,35 @@
     });
   });
 
-  select?.addEventListener("change", () => {
-    if (routeFromHash() === select.value) {
-      showView(select.value, { focusHeading: true });
-      return;
-    }
-    location.hash = select.value;
+  pickerTrigger?.addEventListener("click", () => {
+    setPickerOpen(!picker?.classList.contains("is-open"));
+  });
+
+  pickerOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      const route = option.dataset.pickerRoute;
+      if (!validRoute(route)) return;
+      setPickerOpen(false);
+      if (routeFromHash() === route) {
+        showView(route, { focusHeading: true });
+        return;
+      }
+      location.hash = route;
+    });
+  });
+
+  pickerTrigger?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setPickerOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (picker && !picker.contains(event.target)) setPickerOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !picker?.classList.contains("is-open")) return;
+    setPickerOpen(false);
+    pickerTrigger?.focus();
   });
 
   window.addEventListener("hashchange", () => {

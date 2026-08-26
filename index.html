@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070806">
   <meta name="description" content="Streamax GSR-ready OEM safety solutions for European commercial vehicles, including AI vision, CMS31 and ESS 2.0.">
   <title>Streamax OEM GSR Solutions</title>
@@ -25,14 +25,27 @@
       <button class="nav-tab" type="button" data-route="ess20">ESS 2.0</button>
     </nav>
 
-    <label class="mobile-viewer">
-      <span>Viewing</span>
-      <select id="solution-select" aria-label="Choose an OEM solution page">
-        <option value="oem-eu">OEM-EU</option>
-        <option value="cms31">CMS31</option>
-        <option value="ess20">ESS 2.0</option>
-      </select>
-    </label>
+    <div class="mobile-viewer" id="solution-picker">
+      <span class="mobile-viewer__label">Choose solution</span>
+      <button class="mobile-viewer__trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="solution-menu">
+        <span class="mobile-viewer__value">OEM-EU</span>
+        <span class="mobile-viewer__chevron" aria-hidden="true"></span>
+      </button>
+      <div class="solution-menu" id="solution-menu" role="listbox" aria-label="Choose an OEM solution page">
+        <button class="solution-option" type="button" role="option" data-picker-route="oem-eu" aria-selected="true">
+          <span class="solution-option__title">OEM-EU</span>
+          <span class="solution-option__description">Modular GSR functions</span>
+        </button>
+        <button class="solution-option" type="button" role="option" data-picker-route="cms31" aria-selected="false">
+          <span class="solution-option__title">CMS31</span>
+          <span class="solution-option__description">Digital mirror system</span>
+        </button>
+        <button class="solution-option" type="button" role="option" data-picker-route="ess20" aria-selected="false">
+          <span class="solution-option__title">ESS 2.0</span>
+          <span class="solution-option__description">Unified domain controller</span>
+        </button>
+      </div>
+    </div>
   </header>
 
   <main id="main-content">
@@ -180,17 +193,14 @@
           <figure class="media-frame proof-mosaic__wide">
             <img data-src="assets/images/cms31-night-vision-960.webp" data-srcset="assets/images/cms31-night-vision-960.webp 960w, assets/images/cms31-night-vision-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 72vw" width="1440" height="491" loading="lazy" decoding="async" alt="CMS31 night visibility comparison against a conventional mirror view">
             <figcaption>AI ISP night vision</figcaption>
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-night-vision-1440.webp" data-zoom-alt="CMS31 night visibility comparison against a conventional mirror view" aria-label="View CMS31 night visibility comparison at full size">+</button>
           </figure>
           <figure class="media-frame">
             <img data-src="assets/images/cms31-self-cleaning-960.webp" data-srcset="assets/images/cms31-self-cleaning-960.webp 960w, assets/images/cms31-self-cleaning-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 44vw" width="1440" height="409" loading="lazy" decoding="async" alt="CMS31 camera view before and after self-cleaning">
             <figcaption>One-button lens cleaning</figcaption>
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-self-cleaning-1440.webp" data-zoom-alt="CMS31 camera view before and after self-cleaning" aria-label="View CMS31 self-cleaning comparison at full size">+</button>
           </figure>
           <figure class="media-frame">
             <img data-src="assets/images/cms31-image-quality-960.webp" data-srcset="assets/images/cms31-image-quality-960.webp 960w, assets/images/cms31-image-quality-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 44vw" width="1440" height="416" loading="lazy" decoding="async" alt="CMS31 wide-angle image quality comparison on the road">
             <figcaption>Wide-angle smooth imaging</figcaption>
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-image-quality-1440.webp" data-zoom-alt="CMS31 wide-angle image quality comparison on the road" aria-label="View CMS31 road image quality comparison at full size">+</button>
           </figure>
         </div>
       </section>
@@ -216,16 +226,20 @@
         <div class="section-heading">
           <h2 id="cms-config-title">Configure around the cab</h2>
           <p>The aluminum A-pillar mount supports wide pitch and yaw adjustment while keeping cab wiring protected and installation secure.</p>
-          <div class="model-list" aria-label="CMS31 product series">
-            <article><h3>CMS31-GSR</h3><p>Class 2/4/5/6 plus MOIS and BSIS</p></article>
-            <article><h3>CMS31-F</h3><p>Class 2/4/5/6 camera-monitor coverage</p></article>
-            <article><h3>CMS31-SE</h3><p>Class 2/4 camera-monitor coverage</p></article>
-          </div>
         </div>
-        <figure class="media-frame media-frame--plain">
-          <img data-src="assets/images/cms31-mount-960.webp" data-srcset="assets/images/cms31-mount-960.webp 960w, assets/images/cms31-mount-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 52vw" width="1440" height="642" loading="lazy" decoding="async" alt="CMS31 adjustable A-pillar display mount with installation callouts">
-          <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-mount-1440.webp" data-zoom-alt="CMS31 adjustable A-pillar display mount with installation callouts" aria-label="View CMS31 A-pillar mount at full size">+</button>
+        <figure class="cms31-mount-product">
+          <div class="cms31-mount-product__meta" aria-hidden="true">
+            <span>CMS31 / A-PILLAR MOUNT</span>
+            <span>PITCH + YAW</span>
+          </div>
+          <img src="assets/images/cms31-mount-cutout.png" width="2000" height="2604" loading="lazy" decoding="async" alt="CMS31 adjustable A-pillar display mount">
+          <figcaption>Adjustable hardware, designed to stay clear and secure inside the cab.</figcaption>
         </figure>
+        <div class="model-list" aria-label="CMS31 product series">
+          <article><h3>CMS31-GSR</h3><p>Class 2/4/5/6 plus MOIS and BSIS</p></article>
+          <article><h3>CMS31-F</h3><p>Class 2/4/5/6 camera-monitor coverage</p></article>
+          <article><h3>CMS31-SE</h3><p>Class 2/4 camera-monitor coverage</p></article>
+        </div>
       </section>
 
       <section class="cta-band" aria-labelledby="cms-cta-title">
