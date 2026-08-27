@@ -21,11 +21,14 @@
   const mountCard = mountCanvas?.parentElement?.querySelector("[data-hotspot-card]");
   const mountCardTitle = mountCard?.querySelector("[data-hotspot-card-title]");
   const mountCardCopy = mountCard?.querySelector("[data-hotspot-card-copy]");
+  const heroHotspots = [...document.querySelectorAll("[data-product-panel]")];
+  const heroPanels = [...document.querySelectorAll("[data-hero-panel]")];
   let viewerTrigger = null;
   let viewerNaturalWidth = 0;
   let viewerNaturalHeight = 0;
   let viewerMode = "standard";
   let activeMountHotspot = null;
+  let activeHeroPanel = null;
 
   if (viewerImage) {
     viewerImage.id = "viewer-image";
@@ -98,6 +101,27 @@
     if (!event.target.closest(".mount-hotspot, .mount-hotspot-card")) closeMountCallout();
   });
 
+  const updateHeroPanel = (panelKey = null) => {
+    activeHeroPanel = panelKey;
+    heroHotspots.forEach((hotspot) => {
+      hotspot.setAttribute("aria-expanded", String(hotspot.dataset.productPanel === panelKey));
+    });
+    heroPanels.forEach((panel) => {
+      const active = panel.dataset.heroPanel === panelKey;
+      panel.classList.toggle("is-active", active);
+      panel.setAttribute("aria-hidden", String(!active));
+      if (active) panel.removeAttribute("inert");
+      else panel.setAttribute("inert", "");
+    });
+  };
+
+  heroHotspots.forEach((hotspot) => {
+    hotspot.addEventListener("click", () => {
+      const panelKey = hotspot.dataset.productPanel;
+      updateHeroPanel(activeHeroPanel === panelKey ? null : panelKey);
+    });
+  });
+
   const hydrateView = (view) => {
     view.querySelectorAll("img[data-src]").forEach((image) => {
       image.src = image.dataset.src;
@@ -142,6 +166,7 @@
     syncPicker(activeRoute);
     setPickerOpen(false);
     closeMountCallout();
+    updateHeroPanel(null);
     document.title = routeMeta[activeRoute];
     moveToTop();
 

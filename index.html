@@ -7,7 +7,7 @@
   <meta name="description" content="Streamax GSR-ready OEM safety solutions for European commercial vehicles, including AI vision, CMS31 and ESS 2.0.">
   <title>Streamax OEM GSR Solutions</title>
   <link rel="preload" href="assets/fonts/harmonyos-sans-regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="assets/images/oem-bsis-suite-1200.webp" as="image" imagesrcset="assets/images/oem-bsis-suite-640.webp 640w, assets/images/oem-bsis-suite-1200.webp 1200w, assets/images/oem-bsis-suite-1600.webp 1600w" imagesizes="(max-width: 760px) 100vw, 50vw">
+  <link rel="preload" href="assets/images/oem-truck-hero.png" as="image" type="image/png">
   <link rel="stylesheet" href="assets/site.css">
   <script src="assets/site.js" defer></script>
 </head>
@@ -57,9 +57,61 @@
           <p class="hero-positioning">Modular GSR functions</p>
           <p class="lede">One vision-based platform connects blind-spot protection, driver awareness and approval-ready vehicle integration.</p>
         </div>
-        <div class="hero-suite" aria-label="Streamax GSR safety hardware families">
-          <img class="hero-suite__product" src="assets/images/oem-product-suite.png" width="1132" height="368" fetchpriority="high" alt="Streamax OEM camera, controller and sensor hardware">
-        </div>
+        <figure class="hero-truck" aria-label="Streamax truck platform with interactive product groups">
+          <div class="hero-truck__visual">
+            <img src="assets/images/oem-truck-hero.png" width="1535" height="1024" fetchpriority="high" alt="Wireframe truck showing Streamax vehicle technology platform">
+            <button class="hero-truck__hotspot" type="button" style="--x: 14%; --y: 54%;" data-product-panel="vision" aria-controls="oem-panel-vision" aria-expanded="false" aria-label="Show Safety and Vision Systems products"><span class="sr-only">Show Safety and Vision Systems products</span></button>
+            <button class="hero-truck__hotspot" type="button" style="--x: 86%; --y: 54%;" data-product-panel="telematics" aria-controls="oem-panel-telematics" aria-expanded="false" aria-label="Show Video Telematics Terminal products"><span class="sr-only">Show Video Telematics Terminal products</span></button>
+          </div>
+          <div class="hero-product-panels" aria-live="polite">
+            <section class="hero-product-panel" id="oem-panel-vision" data-hero-panel="vision" aria-hidden="true" inert>
+              <div class="hero-product-panel__heading"><span class="hero-product-panel__index">01</span><h2>Safety &amp; Vision Systems</h2></div>
+              <ul class="hero-product-list" aria-label="Safety and Vision Systems products">
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-ess20.png" width="280" height="130" loading="lazy" decoding="async" alt="ESS2.0 controller"></div>
+                  <div class="hero-product-item__copy"><h3>ESS2.0</h3><p>GSR Central Controller</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-eb-pro.png" width="220" height="150" loading="lazy" decoding="async" alt="EB-PRO controller"></div>
+                  <div class="hero-product-item__copy"><h3>EB-PRO</h3><p>AEBS Solution</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-cms.png" width="300" height="130" loading="lazy" decoding="async" alt="CMS intelligent vision camera"></div>
+                  <div class="hero-product-item__copy"><h3>CMS</h3><p>Intelligent Vision System</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-eb-avm.png" width="300" height="155" loading="lazy" decoding="async" alt="EB-AVM controller"></div>
+                  <div class="hero-product-item__copy"><h3>EB-AVM</h3><p>360° View System</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-edr.png" width="280" height="150" loading="lazy" decoding="async" alt="EDR event data recorder"></div>
+                  <div class="hero-product-item__copy"><h3>EDR</h3><p>Event Data Recorder</p></div>
+                </li>
+              </ul>
+            </section>
+            <section class="hero-product-panel" id="oem-panel-telematics" data-hero-panel="telematics" aria-hidden="true" inert>
+              <div class="hero-product-panel__heading"><span class="hero-product-panel__index">02</span><h2>Video Telematics Terminal</h2></div>
+              <ul class="hero-product-list" aria-label="Video Telematics Terminal products">
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-d6.png" width="240" height="110" loading="lazy" decoding="async" alt="D6 video telematics terminal"></div>
+                  <div class="hero-product-item__copy"><h3>D6</h3><p>Video Telematics Terminal</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-cockpit.png" width="240" height="150" loading="lazy" decoding="async" alt="Integrated cockpit platform"></div>
+                  <div class="hero-product-item__copy"><h3>Integrated Cockpit Platform</h3><p>Domain Control · Cluster · HMI</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-ivi.png" width="220" height="160" loading="lazy" decoding="async" alt="IVI multimedia head unit"></div>
+                  <div class="hero-product-item__copy"><h3>IVI</h3><p>Multimedia Head Unit</p></div>
+                </li>
+                <li class="hero-product-item">
+                  <div class="hero-product-item__media"><img src="assets/images/oem-product-its.png" width="205" height="160" loading="lazy" decoding="async" alt="ITS and ITxPT public transport onboard system"></div>
+                  <div class="hero-product-item__copy"><h3>ITS / ITxPT</h3><p>Public Transport Onboard System</p></div>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </figure>
       </header>
 
       <section class="section section--tight" aria-labelledby="oem-domains-title">
@@ -136,6 +188,9 @@
             <figcaption>ISA &amp; DDAW/ADDW vehicle architecture</figcaption>
             <button class="zoom-button" type="button" data-zoom-src="assets/images/oem-adas-vehicle-map-1600.webp" data-zoom-alt="ISA and driver awareness hardware placement on a commercial bus" data-zoom-caption="ISA and driver awareness hardware placement map" data-zoom-mode="landscape" aria-label="View ISA and driver awareness vehicle architecture at full size">+</button>
           </figure>
+        </div>
+        <div class="solution-jumps__intro">
+          <h3 class="solution-jumps__title">More products</h3>
         </div>
         <nav class="solution-jumps" aria-label="Explore product solutions">
           <a class="solution-jump" href="#cms31">
