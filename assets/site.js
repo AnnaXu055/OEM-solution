@@ -14,10 +14,18 @@
   const viewer = document.querySelector("#image-viewer");
   const viewerStage = viewer?.querySelector(".image-dialog__stage");
   const viewerImage = viewerStage?.appendChild(document.createElement("img")) || null;
+  const viewerTitle = viewer?.querySelector("#viewer-title");
   const viewerClose = viewer?.querySelector("[data-viewer-close]");
+  const mountCanvas = document.querySelector("[data-mount-hotspots]");
+  const mountHotspots = [...(mountCanvas?.querySelectorAll(".mount-hotspot") || [])];
+  const mountCard = mountCanvas?.parentElement?.querySelector("[data-hotspot-card]");
+  const mountCardTitle = mountCard?.querySelector("[data-hotspot-card-title]");
+  const mountCardCopy = mountCard?.querySelector("[data-hotspot-card-copy]");
   let viewerTrigger = null;
   let viewerNaturalWidth = 0;
   let viewerNaturalHeight = 0;
+  let viewerMode = "standard";
+  let activeMountHotspot = null;
 
   if (viewerImage) {
     viewerImage.id = "viewer-image";
@@ -57,6 +65,38 @@
       option.setAttribute("aria-selected", String(option.dataset.pickerRoute === route));
     });
   };
+
+  const closeMountCallout = () => {
+    activeMountHotspot = null;
+    mountCanvas?.classList.remove("has-callout");
+    mountCard?.setAttribute("aria-hidden", "true");
+    mountHotspots.forEach((hotspot) => hotspot.setAttribute("aria-pressed", "false"));
+  };
+
+  const showMountCallout = (hotspot) => {
+    if (!mountCanvas || !mountCard || !mountCardTitle || !mountCardCopy) return;
+    if (activeMountHotspot === hotspot) {
+      closeMountCallout();
+      return;
+    }
+    activeMountHotspot = hotspot;
+    mountHotspots.forEach((item) => item.setAttribute("aria-pressed", String(item === hotspot)));
+    mountCardTitle.textContent = hotspot.dataset.hotspotTitle || "CMS31 mount detail";
+    mountCardCopy.textContent = hotspot.dataset.hotspotCopy || "";
+    mountCard.setAttribute("aria-hidden", "false");
+    mountCanvas.classList.add("has-callout");
+  };
+
+  mountHotspots.forEach((hotspot) => {
+    hotspot.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showMountCallout(hotspot);
+    });
+  });
+
+  mountCanvas?.addEventListener("click", (event) => {
+    if (!event.target.closest(".mount-hotspot, .mount-hotspot-card")) closeMountCallout();
+  });
 
   const hydrateView = (view) => {
     view.querySelectorAll("img[data-src]").forEach((image) => {
@@ -101,6 +141,7 @@
 
     syncPicker(activeRoute);
     setPickerOpen(false);
+    closeMountCallout();
     document.title = routeMeta[activeRoute];
     moveToTop();
 
@@ -146,12 +187,16 @@
 
   document.addEventListener("click", (event) => {
     if (picker && !picker.contains(event.target)) setPickerOpen(false);
+    if (mountCanvas && !mountCanvas.contains(event.target) && !mountCard?.contains(event.target)) closeMountCallout();
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || !picker?.classList.contains("is-open")) return;
-    setPickerOpen(false);
-    pickerTrigger?.focus();
+    if (event.key !== "Escape") return;
+    if (picker?.classList.contains("is-open")) {
+      setPickerOpen(false);
+      pickerTrigger?.focus();
+    }
+    closeMountCallout();
   });
 
   window.addEventListener("hashchange", () => {
@@ -164,6 +209,14 @@
     const availableWidth = Math.max(1, viewerStage.clientWidth - 24);
     const availableHeight = Math.max(1, viewerStage.clientHeight - 24);
     const aspect = viewerNaturalWidth / viewerNaturalHeight;
+    const isLandscapeZoom = viewerMode === "landscape" && window.matchMedia("(max-width: 760px)").matches;
+    if (isLandscapeZoom) {
+      viewerImage.removeAttribute("style");
+      viewerStage.classList.remove("is-overflowing");
+      viewerStage.scrollLeft = 0;
+      viewerStage.scrollTop = 0;
+      return;
+    }
     const isLandscape = window.innerWidth > window.innerHeight;
     const heightFitWidth = availableHeight * aspect;
     const targetWidth = isLandscape
@@ -196,10 +249,15 @@
     button.addEventListener("click", () => {
       if (!viewer || !viewerImage) return;
       viewerTrigger = button;
+      viewerMode = button.dataset.zoomMode || "standard";
+      viewer.dataset.viewerMode = viewerMode;
+      if (viewerTitle) {
+        viewerTitle.textContent = button.dataset.zoomCaption || button.dataset.zoomAlt || "Selected image";
+      }
       viewerImage.removeAttribute("style");
       viewerStage?.classList.remove("is-overflowing");
       viewerImage.src = button.dataset.zoomSrc || "";
-      viewerImage.alt = button.dataset.zoomAlt || "Image detail";
+      viewerImage.alt = button.dataset.zoomAlt || "Selected image";
       viewer.showModal();
       viewerStage?.focus();
     });
@@ -222,6 +280,9 @@
       viewerImage.removeAttribute("src");
     }
     viewerStage?.classList.remove("is-overflowing");
+    delete viewer.dataset.viewerMode;
+    viewerMode = "standard";
+    if (viewerTitle) viewerTitle.textContent = "Selected image";
     viewerNaturalWidth = 0;
     viewerNaturalHeight = 0;
     viewerTrigger?.focus();

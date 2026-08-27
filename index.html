@@ -120,7 +120,7 @@
               <img src="assets/images/oem-bsis-vehicle-map-960.webp" width="960" height="554" loading="lazy" decoding="async" alt="BSIS and MOIS hardware placement on a commercial bus">
             </picture>
             <figcaption>BSIS &amp; MOIS vehicle architecture</figcaption>
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/oem-bsis-vehicle-map-1600.webp" data-zoom-alt="BSIS and MOIS hardware placement on a commercial bus" aria-label="View BSIS and MOIS vehicle architecture at full size">+</button>
+            <button class="zoom-button" type="button" data-zoom-src="assets/images/oem-bsis-vehicle-map-1600.webp" data-zoom-alt="BSIS and MOIS hardware placement on a commercial bus" data-zoom-caption="BSIS and MOIS hardware placement map" data-zoom-mode="landscape" aria-label="View BSIS and MOIS vehicle architecture at full size">+</button>
           </figure>
           <figure class="media-frame">
             <picture>
@@ -128,7 +128,7 @@
               <img src="assets/images/oem-adas-vehicle-map-960.webp" width="960" height="554" loading="lazy" decoding="async" alt="ISA and driver awareness hardware placement on a commercial bus">
             </picture>
             <figcaption>ISA &amp; DDAW/ADDW vehicle architecture</figcaption>
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/oem-adas-vehicle-map-1600.webp" data-zoom-alt="ISA and driver awareness hardware placement on a commercial bus" aria-label="View ISA and driver awareness vehicle architecture at full size">+</button>
+            <button class="zoom-button" type="button" data-zoom-src="assets/images/oem-adas-vehicle-map-1600.webp" data-zoom-alt="ISA and driver awareness hardware placement on a commercial bus" data-zoom-caption="ISA and driver awareness hardware placement map" data-zoom-mode="landscape" aria-label="View ISA and driver awareness vehicle architecture at full size">+</button>
           </figure>
         </div>
       </section>
@@ -180,7 +180,7 @@
             <source media="(min-width: 900px)" data-srcset="assets/images/cms31-vehicle-integration-1600.webp">
             <img data-src="assets/images/cms31-vehicle-integration-960.webp" width="960" height="702" loading="lazy" decoding="async" alt="CMS31 cameras and displays integrated on buses and trucks">
           </picture>
-          <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-vehicle-integration-1600.webp" data-zoom-alt="CMS31 cameras and displays integrated on buses and trucks" aria-label="View CMS31 vehicle integration at full size">+</button>
+          <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-vehicle-integration-1600.webp" data-zoom-alt="CMS31 cameras and displays integrated on buses and trucks" data-zoom-caption="CMS31 camera and display integration" data-zoom-mode="landscape" aria-label="View CMS31 vehicle integration at full size">+</button>
         </figure>
       </section>
 
@@ -213,11 +213,9 @@
         <div class="proof-stack">
           <figure class="media-frame">
             <img data-src="assets/images/cms31-compliance-960.webp" data-srcset="assets/images/cms31-compliance-960.webp 960w, assets/images/cms31-compliance-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 88vw" width="1440" height="787" loading="lazy" decoding="async" alt="CMS31 semantic segmentation and smart dimming evidence">
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-compliance-1440.webp" data-zoom-alt="CMS31 semantic segmentation and smart dimming evidence" aria-label="View CMS31 compliance evidence at full size">+</button>
           </figure>
           <figure class="media-frame">
             <img data-src="assets/images/cms31-reliability-960.webp" data-srcset="assets/images/cms31-reliability-960.webp 960w, assets/images/cms31-reliability-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 88vw" width="1440" height="881" loading="lazy" decoding="async" alt="CMS31 temperature, vibration and active alignment tests">
-            <button class="zoom-button" type="button" data-zoom-src="assets/images/cms31-reliability-1440.webp" data-zoom-alt="CMS31 temperature, vibration and active alignment tests" aria-label="View CMS31 reliability evidence at full size">+</button>
           </figure>
         </div>
       </section>
@@ -232,8 +230,19 @@
             <span>CMS31 / A-PILLAR MOUNT</span>
             <span>PITCH + YAW</span>
           </div>
-          <img src="assets/images/cms31-mount-cutout.png" width="2000" height="2604" loading="lazy" decoding="async" alt="CMS31 adjustable A-pillar display mount">
-          <figcaption>Adjustable hardware, designed to stay clear and secure inside the cab.</figcaption>
+          <div class="cms31-mount-product__canvas" data-mount-hotspots>
+            <img src="assets/images/cms31-mount-cutout.png" width="2000" height="2604" loading="lazy" decoding="async" alt="CMS31 adjustable A-pillar display mount">
+            <button class="mount-hotspot" type="button" style="--x: 44%; --y: 22%;" data-hotspot-title="Pitch angle pivot shaft" data-hotspot-copy="Can adjust the pitch angle." aria-label="Show pitch angle pivot shaft explanation" aria-pressed="false"><span class="sr-only">Pitch angle pivot shaft</span></button>
+            <button class="mount-hotspot" type="button" style="--x: 41%; --y: 30%;" data-hotspot-title="M10 pivot fixing screw" data-hotspot-copy="More secure fixing for the pivot." aria-label="Show M10 pivot fixing screw explanation" aria-pressed="false"><span class="sr-only">M10 pivot fixing screw</span></button>
+            <button class="mount-hotspot" type="button" style="--x: 43%; --y: 40%;" data-hotspot-title="Yaw angle pivot shaft" data-hotspot-copy="Can rotate 180° to adjust the yaw angle." aria-label="Show yaw angle pivot shaft explanation" aria-pressed="false"><span class="sr-only">Yaw angle pivot shaft</span></button>
+            <button class="mount-hotspot" type="button" style="--x: 30%; --y: 55%;" data-hotspot-title="Dedicated cable port" data-hotspot-copy="A protective sleeve routes wires through the A-pillar for a clean, damage-free setup." aria-label="Show dedicated cable port explanation" aria-pressed="false"><span class="sr-only">Dedicated cable port</span></button>
+            <button class="mount-hotspot" type="button" style="--x: 88%; --y: 10%;" data-hotspot-title="Screen-side M6 fixing screws" data-hotspot-copy="Four M6 screws stabilize the screen securely." aria-label="Show screen-side M6 fixing screws explanation" aria-pressed="false"><span class="sr-only">Screen-side M6 fixing screws</span></button>
+            <button class="mount-hotspot" type="button" style="--x: 25%; --y: 84%;" data-hotspot-title="Triangular M6 screw arrangement" data-hotspot-copy="Three M6 screws secure the A-pillar mounting." aria-label="Show triangular M6 screw arrangement explanation" aria-pressed="false"><span class="sr-only">Triangular M6 screw arrangement</span></button>
+          </div>
+          <div class="mount-hotspot-card" data-hotspot-card role="status" aria-live="polite" aria-hidden="true">
+            <p class="mount-hotspot-card__title" data-hotspot-card-title></p>
+            <p class="mount-hotspot-card__copy" data-hotspot-card-copy></p>
+          </div>
         </figure>
         <div class="model-list" aria-label="CMS31 product series">
           <article><h3>CMS31-GSR</h3><p>Class 2/4/5/6 plus MOIS and BSIS</p></article>
@@ -299,7 +308,7 @@
             <source media="(min-width: 900px)" data-srcset="assets/images/ess20-architecture-1600.webp">
             <img data-src="assets/images/ess20-architecture-960.webp" width="960" height="498" loading="lazy" decoding="async" alt="ESS 2.0 shared sensor and domain architecture for commercial vehicles">
           </picture>
-          <button class="zoom-button" type="button" data-zoom-src="assets/images/ess20-architecture-1600.webp" data-zoom-alt="ESS 2.0 shared sensor and domain architecture for commercial vehicles" aria-label="View ESS 2.0 architecture at full size">+</button>
+          <button class="zoom-button" type="button" data-zoom-src="assets/images/ess20-architecture-1600.webp" data-zoom-alt="ESS 2.0 shared sensor and domain architecture for commercial vehicles" data-zoom-caption="ESS 2.0 shared sensor and domain architecture" data-zoom-mode="landscape" aria-label="View ESS 2.0 architecture at full size">+</button>
         </figure>
       </section>
 
@@ -323,8 +332,7 @@
   <dialog class="image-dialog" id="image-viewer" aria-labelledby="viewer-title">
     <div class="image-dialog__bar">
       <div class="image-dialog__title-group">
-        <p id="viewer-title">Image detail</p>
-        <p class="image-dialog__hint">Rotate your phone for a wider view</p>
+        <p id="viewer-title">Selected image</p>
       </div>
       <button type="button" data-viewer-close>Close</button>
     </div>
