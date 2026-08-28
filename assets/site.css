@@ -478,8 +478,10 @@ h1[tabindex="-1"]:focus {
 }
 
 .hero-media--ess img {
-  aspect-ratio: 1600 / 999;
-  object-fit: cover;
+  display: block;
+  aspect-ratio: 1254 / 760;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgb(171 205 0 / 34%)) drop-shadow(0 0 14px rgb(171 205 0 / 18%));
 }
 
 .section {
@@ -692,7 +694,7 @@ h1[tabindex="-1"]:focus {
   position: relative;
   min-width: 0;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 18px;
   background: #050604;
 }
 
@@ -716,7 +718,7 @@ h1[tabindex="-1"]:focus {
 
 .media-frame--plain {
   border-bottom: 1px solid var(--accent);
-  border-radius: 8px 8px 0 0;
+  border-radius: 18px 18px 0 0;
 }
 
 .zoom-button {
